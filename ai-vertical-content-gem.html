@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Vertical Content — Gemini Gem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-top:#F4EEFF;
+    --bg-bottom:#FFF1F7;
+    --ink:#3B2E52;
+    --ink-soft:#6E6083;
+    --card-bg:#FFFFFF;
+    --violet:#8B6CF2;
+    --violet-soft:#EDE6FF;
+    --pink:#FF7FAA;
+    --pink-soft:#FFE6EE;
+    --mint:#2FCB99;
+    --mint-soft:#DFF9EF;
+    --line:#EAE2FA;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Sarabun', sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(560px 380px at 12% -6%, #FFFFFFAA, transparent 60%),
+      radial-gradient(700px 500px at 100% 0%, var(--pink-soft), transparent 55%),
+      linear-gradient(180deg, var(--bg-top), var(--bg-bottom) 70%);
+    min-height:100vh;
+    padding:48px 20px 80px;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    margin-bottom:44px;
+  }
+  .gem-cluster{width:132px;height:auto;margin-bottom:18px;}
+  .eyebrow-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--card-bg);
+    border:1.5px solid var(--line);
+    color:var(--ink-soft);
+    font-family:'Kanit',sans-serif;
+    font-size:13px;
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:14px;
+    box-shadow:0 4px 14px rgba(139,108,242,0.10);
+  }
+  h1{
+    font-family:'Kanit',sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,5vw,40px);
+    margin:0 0 10px;
+    line-height:1.2;
+  }
+  h1 span{color:var(--violet);}
+  .hero p{
+    font-size:16px;
+    color:var(--ink-soft);
+    max-width:480px;
+    margin:0;
+    line-height:1.7;
+  }
+
+  /* ---------- Cards ---------- */
+  .card{
+    background:var(--card-bg);
+    border-radius:26px;
+    padding:26px 26px 24px;
+    margin-bottom:22px;
+    border:1.5px solid var(--line);
+    box-shadow:0 14px 30px rgba(139,108,242,0.08);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:6px;
+  }
+  .card.c-name::before{background:var(--violet);}
+  .card.c-desc::before{background:var(--pink);}
+  .card.c-cmd::before{background:var(--mint);}
+
+  .card-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .card-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .facet{
+    width:30px;height:30px;
+    flex:none;
+    border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .c-name .facet{background:var(--violet-soft);}
+  .c-desc .facet{background:var(--pink-soft);}
+  .c-cmd .facet{background:var(--mint-soft);}
+  .facet svg{width:16px;height:16px;}
+
+  .card-title h2{
+    font-family:'Kanit',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    margin:0;
+  }
+  .card-title small{
+    display:block;
+    font-size:12px;
+    color:var(--ink-soft);
+    font-weight:400;
+    margin-top:1px;
+  }
+
+  .copy-btn{
+    font-family:'Kanit',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    border:none;
+    border-radius:999px;
+    padding:9px 16px;
+    cursor:pointer;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+    flex:none;
+  }
+  .copy-btn svg{width:14px;height:14px;}
+  .c-name .copy-btn{background:var(--violet);box-shadow:0 8px 18px rgba(139,108,242,0.35);}
+  .c-desc .copy-btn{background:var(--pink);box-shadow:0 8px 18px rgba(255,127,170,0.35);}
+  .c-cmd .copy-btn{background:var(--mint);box-shadow:0 8px 18px rgba(47,203,153,0.35);}
+  .copy-btn:hover{transform:translateY(-1px);}
+  .copy-btn:active{transform:translateY(0px) scale(0.97);}
+  .copy-btn.copied{opacity:0.85;}
+
+  .field-name{
+    font-family:'Kanit',sans-serif;
+    font-weight:600;
+    font-size:20px;
+    background:var(--violet-soft);
+    border-radius:14px;
+    padding:14px 16px;
+    margin:0;
+  }
+
+  .field-desc{
+    font-size:15px;
+    line-height:1.85;
+    background:var(--pink-soft);
+    border-radius:14px;
+    padding:16px 18px;
+    margin:0;
+    white-space:pre-line;
+  }
+
+  textarea.field-cmd{
+    width:100%;
+    min-height:340px;
+    resize:vertical;
+    font-family:'Fira Code','Sarabun',monospace;
+    font-size:13.5px;
+    line-height:1.75;
+    color:var(--ink);
+    background:var(--mint-soft);
+    border:1.5px solid #C7EEDF;
+    border-radius:14px;
+    padding:16px 18px;
+  }
+  textarea.field-cmd:focus{outline:2px solid var(--mint);outline-offset:1px;}
+
+  .hint{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:36px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .copy-btn{transition:none;}
+  }
+
+  @media (max-width:520px){
+    body{padding:36px 14px 60px;}
+    .card{padding:20px 18px;border-radius:20px;}
+    .card-head{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <svg class="gem-cluster" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="80,8 118,42 100,100 60,100 42,42" fill="#8B6CF2"/>
+      <polygon points="80,8 118,42 80,52" fill="#A88CF7"/>
+      <polygon points="80,8 42,42 80,52" fill="#7856E0"/>
+      <polygon points="42,42 80,52 60,100" fill="#9B7BF4"/>
+      <polygon points="118,42 80,52 100,100" fill="#7A5CE0"/>
+      <polygon points="20,70 40,58 46,92 26,102" fill="#FF7FAA"/>
+      <polygon points="20,70 46,92 32,110" fill="#FF9DC0"/>
+      <polygon points="140,72 120,60 114,94 134,104" fill="#2FCB99"/>
+      <polygon points="140,72 114,94 128,112" fill="#55DFB1"/>
+    </svg>
+    <div class="eyebrow-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#8B6CF2"/></svg>
+      พร้อมก๊อปไปวางใน Gemini Gems
+    </div>
+    <h1>ตั้งค่า Gem <span>AI Vertical Content</span></h1>
+    <p>กดปุ่ม "ก๊อปปี้" ในแต่ละช่อง แล้วนำไปวางในช่องตั้งค่า Gem ของ Gemini ได้เลย ไม่ต้องพิมพ์เอง ✨</p>
+  </div>
+
+  <!-- ชื่อ -->
+  <div class="card c-name">
+    <div class="card-head">
+      <div class="card-title">
+        <div class="facet">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#8B6CF2"/></svg>
+        </div>
+        <div>
+          <h2>ชื่อ Gem</h2>
+          <small>Name</small>
+        </div>
+      </div>
+      <button class="copy-btn" data-target="txt-name">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        ก๊อปปี้
+      </button>
+    </div>
+    <p class="field-name" id="txt-name">AI Vertical content</p>
+  </div>
+
+  <!-- คำอธิบาย -->
+  <div class="card c-desc">
+    <div class="card-head">
+      <div class="card-title">
+        <div class="facet">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 62 40 50 46 84 26 94Z" transform="scale(0.24) translate(2,2)" fill="#FF7FAA"/><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#FF7FAA"/></svg>
+        </div>
+        <div>
+          <h2>คำอธิบาย</h2>
+          <small>Description</small>
+        </div>
+      </div>
+      <button class="copy-btn" data-target="txt-desc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        ก๊อปปี้
+      </button>
+    </div>
+    <p class="field-desc" id="txt-desc">(ใคร + ทำอะไร + ที่ไหน) / ตัวอย่างตัวละครหรือรูปภาพ</p>
+  </div>
+
+  <!-- คำสั่ง -->
+  <div class="card c-cmd">
+    <div class="card-head">
+      <div class="card-title">
+        <div class="facet">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#2FCB99"/></svg>
+        </div>
+        <div>
+          <h2>คำสั่ง (System Prompt)</h2>
+          <small>Instructions</small>
+        </div>
+      </div>
+      <button class="copy-btn" data-target="txt-cmd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        ก๊อปปี้
+      </button>
+    </div>
+    <textarea class="field-cmd" id="txt-cmd" readonly>Role (บทบาทของคุณ):
+คุณคือ "ผู้เชี่ยวชาญด้านการสร้าง Prompt สำหรับงานภาพนิ่งและวิดีโอ AI (Expert AI Prompt Engineer)" เป้าหมายหลักของคุณคือการออกแบบ Prompt สำหรับสร้างภาพ Storyboard และนำไปใช้แปลงเป็นวิดีโอสั้นที่เล่าเรื่องด้วยภาพล้วนๆ อย่างมีประสิทธิภาพ
+
+Strict Rules (กฎสำคัญที่คุณต้องปฏิบัติตามอย่างเคร่งครัด):
+
+1. Do not generate prompts immediately: เมื่อเริ่มต้นสนทนาหรือได้รับบรีฟ คุณ ห้าม คิดเองหรือสร้าง Prompt ในทันที คุณต้อง "ถามกลับ" เพื่อขอข้อมูลที่จำเป็นจากผู้ใช้ก่อนเสมอ โดยต้องถามถึง:
+   - เรื่องราวหรือคอนเซปต์ที่ต้องการ
+   - สไตล์ของภาพ (Style เช่น Cinematic, Anime, 3D Render)
+   - สัดส่วนภาพ (Aspect Ratio เช่น 16:9, 9:16)
+   - จำนวนช่องในภาพ Storyboard (Number of panels)
+
+2. One Image Prompt: เมื่อได้รับข้อมูลครบแล้ว ให้สร้าง 1 Prompt สำหรับภาพนิ่ง โดยต้องออกแบบให้เป็นภาพ Storyboard ที่มี "หลายช่องจบรวมอยู่ในภาพเดียว" (Multiple panels in a single layout)
+
+3. One Video Prompt: สร้าง 1 Prompt สำหรับวิดีโอ โดยต้องผูกเรื่องราวให้ครอบคลุมเนื้อหาจากทุกช่องใน Storyboard รวมไว้ใน Prompt เดียวอย่างลื่นไหล
+
+4. Video Constraints: สำหรับ Video Prompt ต้องกำหนดให้วิดีโอ "จบภายใน 10 วินาที" เท่านั้น (บังคับใช้คำสั่งเช่น Fast transition, Quick sequence, fast-paced 10-second duration)
+
+5. Visual-Only (Strict): ทั้ง Image Prompt และ Video Prompt ห้ามมีข้อความใดๆ ปรากฏในผลลัพธ์เด็ดขาด (บังคับใส่คำสั่งนี้ในทุก Prompt เสมอ: "No text, no subtitles, no on-screen writing, typography-free")
+
+Workflow (การทำงาน):
+1. ทักทาย รับทราบคำสั่ง และถามคำถามเพื่อขอข้อมูล (ตาม Rule 1)
+2. รอผู้ใช้ตอบกลับ
+3. เมื่อผู้ใช้ตอบครบ สร้าง Image Prompt และ Video Prompt เป็นภาษาอังกฤษที่พร้อมนำไปใช้งานใน Midjourney/Stable Diffusion/Runway/Pika ฯลฯ ได้ทันที
+
+หากเข้าใจบทบาทแล้ว ให้พิมพ์ตอบกลับสั้นๆ เพื่อทักทายและเริ่มถามคำถามแรกกับฉันได้เลย</textarea>
+    <div class="hint">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6E6083" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+      แก้ไขข้อความในช่องนี้ได้ก่อนก๊อปปี้ ถ้าอยากปรับแต่งเพิ่ม
+    </div>
+  </div>
+
+  <footer>ทำด้วย 💜 สำหรับใครที่อยากมี Gem ผู้ช่วยสร้าง Prompt ภาพ &amp; วิดีโอของตัวเอง</footer>
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    const targetEl = document.getElementById(btn.dataset.target);
+    const text = targetEl.tagName === 'TEXTAREA' ? targetEl.value : targetEl.innerText;
+    try{
+      await navigator.clipboard.writeText(text);
+    }catch(e){
+      targetEl.select && targetEl.select();
+      document.execCommand('copy');
+    }
+    const original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> ก๊อปแล้ว!';
+    setTimeout(()=>{
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 1600);
+  });
+});
+</script>
+</body>
+</html>
