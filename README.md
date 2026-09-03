@@ -1,1 +1,0 @@
-# Ai-vertical-content-gem
